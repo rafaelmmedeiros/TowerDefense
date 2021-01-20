@@ -5,6 +5,12 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     [SerializeField] private Vector3[] points;
+
+    //
+    public Vector3[] Points => points;
+    public Vector3 CurrentPosition => _curretPosition;
+
+    //
     private Vector3 _curretPosition;
     private bool _gameStarted;
 
