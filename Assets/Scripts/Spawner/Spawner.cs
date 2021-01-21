@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum SpawnModes
 {
@@ -13,25 +15,30 @@ public class Spawner : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private SpawnModes spawnMode = SpawnModes.Fixed;
     [SerializeField] private int enemyCount = 10;
+    [SerializeField] private float delayBetweenWaves = 1f;
 
     [Header("Fixed Delay")]
-    [SerializeField] private GameObject testGameObject;
     [SerializeField] private float delayBetweenSpawns;
 
-    [Header("RAndon Delay")]
+    [Header("Randon Delay")]
     [SerializeField] private float minRandomDelay;
     [SerializeField] private float maxRandomDelay;
-
-    //
-    private float _spawnTimer;
-    private int _enemiesSpawned;
-
+    
     // REFERENCES
     private ObjectPooler _pooler;
+    private Waypoint _waypoint;
 
+    //  INTERNAL VARIABLES
+    private float _spawnTimer;
+    private int _enemiesSpawned;
+    private int _enemiesRemaining;
+    
+    // EVENTS
     private void Start()
     {
         _pooler = GetComponent<ObjectPooler>();
+        _waypoint = GetComponent<Waypoint>();
+        _enemiesRemaining = enemyCount;
     }
 
     void Update()
@@ -48,12 +55,29 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        Enemy.OnEndReached += RecordEnemyEndReached;
+    }
+
+    private void OnDisable()
+    {
+        Enemy.OnEndReached -= RecordEnemyEndReached;
+    }
+
+    // BEHAVIOR
     private void SpawnEnemy()
     {
         GameObject newInstance = _pooler.GetInstanceFromPool();
+        Enemy enemy = newInstance.GetComponent<Enemy>();
+        enemy.Waypoint = _waypoint;
+        enemy.ResetEnemy();
+        
+        enemy.transform.localPosition = transform.position;
         newInstance.SetActive(true);
     }
 
+    // AUX
     private float GetSpawnDelay()
     {
         float delay = 0f;
@@ -65,13 +89,30 @@ public class Spawner : MonoBehaviour
         {
             delay = GetRandomDelay();
         }
-
+        
         return delay;
     }
-
+    
     private float GetRandomDelay()
     {
         float randomTimer = Random.Range(minRandomDelay, maxRandomDelay);
         return randomTimer;
+    }
+
+    private void RecordEnemyEndReached()
+    {
+        _enemiesRemaining--;
+        if (_enemiesRemaining <= 0)
+        {
+            StartCoroutine(NextWave());
+        }
+    }
+
+    private IEnumerator NextWave()
+    {
+        yield return new WaitForSeconds(delayBetweenWaves);
+        _enemiesRemaining = enemyCount;
+        _spawnTimer = 0f;
+        _enemiesSpawned = 0;
     }
 }

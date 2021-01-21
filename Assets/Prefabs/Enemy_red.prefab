@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8958682464744838138}
   - component: {fileID: 8958682464744838137}
   - component: {fileID: 8958682464744838136}
+  - component: {fileID: 6081347}
   m_Layer: 0
   m_Name: Enemy_red
   m_TagString: Untagged
@@ -101,3 +102,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6081347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8958682464744838023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96ecc5423e83f34bbdd217ddcf082c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
