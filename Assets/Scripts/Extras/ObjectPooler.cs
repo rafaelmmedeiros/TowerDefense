@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
 {
-    [Header("Options")]
-    [SerializeField] private GameObject prefab;
+    [Header("Options")] [SerializeField] private GameObject prefab;
     [SerializeField] private int poolSize = 10;
 
     private List<GameObject> _pool;
@@ -46,5 +45,10 @@ public class ObjectPooler : MonoBehaviour
         }
 
         return CreateInstance();
+    }
+
+    public static void ReturnToPool(GameObject instance)
+    {
+        instance.SetActive(false);
     }
 }
