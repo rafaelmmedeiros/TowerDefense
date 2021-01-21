@@ -5,21 +5,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // ACTIONS
-    public static Action OnEndReached;
-    
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 3;
     
-    // REFERENCES
+    //  REFERENCES
     public Waypoint Waypoint { get; set; }
     public Vector3 CurrentPointPosition => Waypoint.GetWaypointPosition(_currentWaypointIndex);
     
     //  INTERNAL VARIABLES
     private int _currentWaypointIndex;
     
+    //  ACTIONS
+    public static Action OnEndReached;
     
-    // EVENTS
+    //  EVENTS
     private void Start()
     {
         _currentWaypointIndex = 0;
@@ -33,7 +32,7 @@ public class Enemy : MonoBehaviour
             UpdateCurrentPointIndex();
         }
     }
-    // BEHAVIOR
+    //  BEHAVIOR
     private void Move()
     {
         transform.position = Vector3.MoveTowards(
@@ -43,7 +42,7 @@ public class Enemy : MonoBehaviour
         );
     }
     
-    // AUX
+    //  AUX
     private bool CurrentPointPositionReached()
     {
         float distanceToNextPointPosition = (transform.position - CurrentPointPosition).magnitude;
