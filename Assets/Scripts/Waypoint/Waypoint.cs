@@ -20,9 +20,9 @@ public class Waypoint : MonoBehaviour
         _curretPosition = transform.position;
     }
 
-    void Update()
+    public Vector3 GetWaypointPosition(int index)
     {
-
+        return CurrentPosition + Points[index];
     }
 
     private void OnDrawGizmos()
