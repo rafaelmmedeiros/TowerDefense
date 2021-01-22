@@ -24,16 +24,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float minRandomDelay;
     [SerializeField] private float maxRandomDelay;
     
-    // REFERENCES
     private ObjectPooler _pooler;
     private Waypoint _waypoint;
 
-    //  INTERNAL VARIABLES
     private float _spawnTimer;
     private int _enemiesSpawned;
     private int _enemiesRemaining;
     
-    // EVENTS
     private void Start()
     {
         _pooler = GetComponent<ObjectPooler>();
@@ -67,7 +64,6 @@ public class Spawner : MonoBehaviour
         EnemyHealth.OnEnemyKilled -= RecordEnemy;
     }
 
-    // BEHAVIOR
     private void SpawnEnemy()
     {
         GameObject newInstance = _pooler.GetInstanceFromPool();
@@ -79,7 +75,6 @@ public class Spawner : MonoBehaviour
         newInstance.SetActive(true);
     }
 
-    // AUX
     private float GetSpawnDelay()
     {
         float delay = 0f;
@@ -101,7 +96,7 @@ public class Spawner : MonoBehaviour
         return randomTimer;
     }
 
-    private void RecordEnemy()
+    private void RecordEnemy(Enemy enemy)
     {
         _enemiesRemaining--;
         if (_enemiesRemaining <= 0)

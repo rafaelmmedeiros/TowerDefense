@@ -6,28 +6,26 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public static Action<Enemy> OnEnemyKilled;
+    public static Action<Enemy> OnEnemyHit;
+    
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private Transform barPosition;
 
     [SerializeField] private float initialHealth = 10f;
     [SerializeField] private float maxHealth = 10f;
     
-    //  PROPS
     public float CurrentHealth { get; set; }
     
-    //  REFERENCES
-    
-    //  INTERNAL VARIABLES
     private Image _healthBar;
+    private Enemy _enemy;
     
-    //  ACTIONS
-    public static Action OnEnemyKilled;
-
-    //  EVENTS
     void Start()
     {
         CreateHealthBar();
         CurrentHealth = initialHealth;
+
+        _enemy = GetComponent<Enemy>();
     }
 
     private void Update()
@@ -42,8 +40,7 @@ public class EnemyHealth : MonoBehaviour
             CurrentHealth/maxHealth,
             Time.deltaTime * 10f);
     }
-
-    //  BEHAVIOR
+    
     public void DealDamage(float damageReceived)
     {
         CurrentHealth -= damageReceived;
@@ -52,16 +49,17 @@ public class EnemyHealth : MonoBehaviour
             CurrentHealth = 0;
             Die();
         }
+        else
+        {
+            OnEnemyHit?.Invoke(_enemy);
+        }
     }
 
     private void Die()
     {
-        ResetHealth();
-        OnEnemyKilled?.Invoke();
-        ObjectPooler.ReturnToPool(gameObject);
+        OnEnemyKilled?.Invoke(_enemy);
     }
     
-    //  AUX
     private void CreateHealthBar()
     {
         GameObject newBar = Instantiate(

@@ -5,25 +5,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public static Action<Enemy> OnEndReached;
+    
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 3;
-    
-    //  PROPS
+
+    public float MoveSpeed { get; set; }
     public Waypoint Waypoint { get; set; }
 
-    //  REFERENCES
     public Vector3 CurrentPointPosition => Waypoint.GetWaypointPosition(_currentWaypointIndex);
     private EnemyHealth _enemyHealth;
     
-    //  INTERNAL VARIABLES
     private int _currentWaypointIndex;
-    
-    //  ACTIONS
-    public static Action OnEndReached;
-    
-    //  EVENTS
+
     private void Start()
     {
+        MoveSpeed = moveSpeed;
+        
         _currentWaypointIndex = 0;
         _enemyHealth = GetComponent<EnemyHealth>();
     }
@@ -36,17 +34,25 @@ public class Enemy : MonoBehaviour
             UpdateCurrentPointIndex();
         }
     }
-    //  BEHAVIOR
     private void Move()
     {
         transform.position = Vector3.MoveTowards(
             transform.position,
             CurrentPointPosition,
-            moveSpeed * Time.deltaTime
+            MoveSpeed * Time.deltaTime
         );
     }
+
+    public void StopMovement()
+    {
+        MoveSpeed = 0f;
+    }
+
+    public void ResumeMovement()
+    {
+        MoveSpeed = moveSpeed;
+    }
     
-    //  AUX
     private bool CurrentPointPositionReached()
     {
         float distanceToNextPointPosition = (transform.position - CurrentPointPosition).magnitude;
@@ -73,7 +79,7 @@ public class Enemy : MonoBehaviour
 
     private void EndPointReached()
     {
-        OnEndReached?.Invoke();
+        OnEndReached?.Invoke(this);
         _enemyHealth.ResetHealth();
         ObjectPooler.ReturnToPool(gameObject);
     }
@@ -82,4 +88,5 @@ public class Enemy : MonoBehaviour
     {
         _currentWaypointIndex = 0;
     }
+    
 }
