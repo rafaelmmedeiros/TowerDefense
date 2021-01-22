@@ -12,13 +12,17 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float initialHealth = 10f;
     [SerializeField] private float maxHealth = 10f;
     
-    //  REFERENCES
+    //  PROPS
     public float CurrentHealth { get; set; }
+    
+    //  REFERENCES
     
     //  INTERNAL VARIABLES
     private Image _healthBar;
     
     //  ACTIONS
+    public static Action OnEnemyKilled;
+
     //  EVENTS
     void Start()
     {
@@ -52,8 +56,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
-        CurrentHealth = initialHealth;
-        _healthBar.fillAmount = 1f;
+        ResetHealth();
+        OnEnemyKilled?.Invoke();
         ObjectPooler.ReturnToPool(gameObject);
     }
     
@@ -68,5 +72,11 @@ public class EnemyHealth : MonoBehaviour
 
         EnemyHealthContainer container = newBar.GetComponent<EnemyHealthContainer>();
         _healthBar = container.FillAmountImage;
+    }
+
+    public void ResetHealth()
+    {
+        CurrentHealth = initialHealth;
+        _healthBar.fillAmount = 1f;
     }
 }

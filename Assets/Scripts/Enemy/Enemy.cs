@@ -8,9 +8,12 @@ public class Enemy : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 3;
     
-    //  REFERENCES
+    //  PROPS
     public Waypoint Waypoint { get; set; }
+
+    //  REFERENCES
     public Vector3 CurrentPointPosition => Waypoint.GetWaypointPosition(_currentWaypointIndex);
+    private EnemyHealth _enemyHealth;
     
     //  INTERNAL VARIABLES
     private int _currentWaypointIndex;
@@ -22,6 +25,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _currentWaypointIndex = 0;
+        _enemyHealth = GetComponent<EnemyHealth>();
     }
 
     private void Update()
@@ -63,13 +67,14 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            ReturnEnemyToPool();
+            EndPointReached();
         }
     }
 
-    private void ReturnEnemyToPool()
+    private void EndPointReached()
     {
         OnEndReached?.Invoke();
+        _enemyHealth.ResetHealth();
         ObjectPooler.ReturnToPool(gameObject);
     }
 
