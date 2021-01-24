@@ -6,7 +6,9 @@ using UnityEngine;
 public class TurretProjectile : MonoBehaviour
 {
     [SerializeField] private Transform projectileSpawnPosition;
-    
+    [SerializeField] private float delayBetweenAttacks = 2f;
+
+    private float _nextAttackTime;
     private ObjectPooler _pooler;
     private Turret _turret;
     private Projectile _currentProjectileLoaded;
@@ -15,22 +17,31 @@ public class TurretProjectile : MonoBehaviour
     {
         _turret = GetComponent<Turret>();
         _pooler = GetComponent<ObjectPooler>();
+        
+        LoadProjectile();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        
+        if (IsTurretEmpty())
         {
             LoadProjectile();
         }
 
-        if (_turret.CurrentEnemyTarget != null &&
-            _currentProjectileLoaded != null &&
-            _turret.CurrentEnemyTarget.EnemyHealth.CurrentHealth > 0f)
+        if (Time.time> _nextAttackTime)
         {
-            _currentProjectileLoaded.transform.parent = null;
-            _currentProjectileLoaded.SetEnemy(_turret.CurrentEnemyTarget);
+            if (_turret.CurrentEnemyTarget != null &&
+                _currentProjectileLoaded != null &&
+                _turret.CurrentEnemyTarget.EnemyHealth.CurrentHealth > 0f)
+            {
+                _currentProjectileLoaded.transform.parent = null;
+                _currentProjectileLoaded.SetEnemy(_turret.CurrentEnemyTarget);
+            }
+
+            _nextAttackTime = Time.time + delayBetweenAttacks;
         }
+        
     }
 
     private void LoadProjectile()
@@ -40,6 +51,18 @@ public class TurretProjectile : MonoBehaviour
         newInstance.transform.SetParent(projectileSpawnPosition);
 
         _currentProjectileLoaded = newInstance.GetComponent<Projectile>();
+        _currentProjectileLoaded.TurretOwner = this;
+        _currentProjectileLoaded.ResetProjectile();
         newInstance.SetActive(true);
+    }
+
+    private bool IsTurretEmpty()
+    {
+        return _currentProjectileLoaded == null;
+    }
+
+    public void ResetTurretProjectile()
+    {
+        _currentProjectileLoaded = null;
     }
 }
