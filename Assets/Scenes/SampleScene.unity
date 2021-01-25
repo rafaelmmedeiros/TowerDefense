@@ -264,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156984703}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.94, z: 0}
+  m_LocalPosition: {x: -4.441, y: -1.205, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 173068906}
@@ -632,7 +632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &697758542
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -648,7 +648,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 5
 --- !u!114 &697758543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b57fdb34600d84d912021efff483b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 968209801562215461, guid: 8903a243a03b6dd41ada88a399f96ed8, type: 3}
+  prefab: {fileID: 4372502544868307962, guid: 9c0d84ce03ca8c446a51f86c6f7fbdfe, type: 3}
   poolSize: 10
 --- !u!114 &697758544
 MonoBehaviour:
@@ -672,11 +672,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 697758541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f7c3a88e3b89a4a83f70f138c556c5, type: 3}
+  m_Script: {fileID: 11500000, guid: b26df06351067ef49a39b383f707b0f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpawnPosition: {fileID: 1586033340}
-  delayBetweenAttacks: 2
+  delayBetweenAttacks: 0.1
+  isDualMachine: 1
+  spreadRange: 30
 --- !u!114 &697758545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3748ed6122ddcda478c976adc1f9f2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 3
+  attackRange: 5
 --- !u!4 &697758546
 Transform:
   m_ObjectHideFlags: 0
@@ -698,7 +700,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697758541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.099, y: 0.47, z: 0}
+  m_LocalPosition: {x: 4, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1424060560}
@@ -791,7 +793,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &859550189
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -820,7 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b57fdb34600d84d912021efff483b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 968209801562215461, guid: 8903a243a03b6dd41ada88a399f96ed8, type: 3}
+  prefab: {fileID: 4372502544868307962, guid: 9c0d84ce03ca8c446a51f86c6f7fbdfe, type: 3}
   poolSize: 10
 --- !u!114 &859550191
 MonoBehaviour:
@@ -831,11 +833,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 859550188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f7c3a88e3b89a4a83f70f138c556c5, type: 3}
+  m_Script: {fileID: 11500000, guid: b26df06351067ef49a39b383f707b0f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpawnPosition: {fileID: 1413258209}
-  delayBetweenAttacks: 2
+  delayBetweenAttacks: 0.5
+  isDualMachine: 0
+  spreadRange: 0
 --- !u!114 &859550192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,7 +861,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859550188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.98, y: 0.47, z: 0}
+  m_LocalPosition: {x: 2, y: -0.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1777755571}
@@ -1101,8 +1105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnMode: 0
-  enemyCount: 1
-  delayBetweenWaves: 2
+  enemyCount: 10
+  delayBetweenWaves: 1
   delayBetweenSpawns: 1
   minRandomDelay: 1
   maxRandomDelay: 3
@@ -1573,7 +1577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422327015}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.36, y: 0.27, z: 0}
+  m_LocalPosition: {x: -2.65, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1266252877}

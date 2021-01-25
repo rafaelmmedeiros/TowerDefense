@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class TurretProjectile : MonoBehaviour
 {
-    [SerializeField] private Transform projectileSpawnPosition;
-    [SerializeField] private float delayBetweenAttacks = 2f;
+    [SerializeField] protected Transform projectileSpawnPosition;
+    [SerializeField] protected float delayBetweenAttacks = 2f;
 
-    private float _nextAttackTime;
-    private ObjectPooler _pooler;
-    private Turret _turret;
+    protected float _nextAttackTime;
+    protected ObjectPooler _pooler;
+    protected Turret _turret;
     private Projectile _currentProjectileLoaded;
 
     private void Start()
@@ -21,7 +21,7 @@ public class TurretProjectile : MonoBehaviour
         LoadProjectile();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         
         if (IsTurretEmpty())
@@ -44,7 +44,7 @@ public class TurretProjectile : MonoBehaviour
         
     }
 
-    private void LoadProjectile()
+    protected virtual void LoadProjectile()
     {
         GameObject newInstance = _pooler.GetInstanceFromPool();
         newInstance.transform.localPosition = projectileSpawnPosition.position;
